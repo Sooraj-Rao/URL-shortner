@@ -6,3 +6,19 @@ html {
     margin: 0;
     padding: 0;
 }
+
+.animate {
+    background: linear-gradient(to left, grey, white, grey);
+    background-size: 1000px 100%;
+    animation: ani 2s linear infinite;
+}
+
+@keyframes ani {
+    from {
+        background-position: -1000px 0;
+    }
+
+    to {
+        background-position: 1000px 0;
+    }
+}
