@@ -5,8 +5,7 @@ const App = () => {
   const [url, seturl] = useState('')
   const [data, setdata] = useState('')
   const [error, seterror] = useState('')
-  let host = 'http://localhost:3000/'
-
+  let host =  import.meta.env.VITE_SERVER
 
   error &&
     setTimeout(() => {
