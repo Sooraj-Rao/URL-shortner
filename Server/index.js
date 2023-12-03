@@ -22,19 +22,49 @@ app.post("/add", async (req, res) => {
     await newUrl.save();
     res.send(short);
   } catch (error) {
-    console.log(error);
-    res.send("Error Posting Found");
+    return res.json({ message: "Failed to create Short URL" });
   }
 });
 
 app.get("/:short", async (req, res) => {
   try {
     const { short } = req.params;
-    let findUrl = await User.findOne({ short });
-    return res.redirect(findUrl.long);
+    const findUrl = await User.findOneAndUpdate(
+      {
+        short,
+      },
+      {
+        $push: {
+          history: {
+            timeStamp: Date.now(),
+          },
+        },
+      }
+    );
+    if (findUrl) {
+      res.redirect(findUrl.long);
+    } else {
+      return res.json({
+        message: "This URL doesnt exist Bro! Go to this link and genarate one",
+        link: "https://srj-url-shortner.vercel.app/",
+      });
+    }
   } catch (error) {
-    console.log(error);
-    res.send("Error Getting Found");
+    return res.json({ message: "Error fetching Url Bro!" });
+  }
+});
+
+app.get("/count/:short", async (req, res) => {
+  try {
+    const { short } = req.params;
+    const findUrl = await User.findOne({ short });
+    if (findUrl) {
+      return res.json({ count: findUrl.history.length, data: findUrl });
+    } else {
+      return res.json({ message: "This URL doesnt exist" });
+    }
+  } catch (error) {
+    return res.json({ message: "Failed to fetch data bro!!" });
   }
 });
 
