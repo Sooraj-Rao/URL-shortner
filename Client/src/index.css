@@ -7,14 +7,18 @@ html {
     padding: 0;
 }
 
-body{
+body {
     background: rgb(163, 240, 255);
 }
 
 .animate {
-    background: linear-gradient(to left, grey, white, grey);
+    background: linear-gradient(to left, rgb(203, 243, 250), rgb(142, 193, 255), rgb(203, 243, 250));
     background-size: 1000px 100%;
     animation: ani 2s linear infinite;
+}
+
+::selection {
+    display: none;
 }
 
 @keyframes ani {
