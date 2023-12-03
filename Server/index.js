@@ -13,6 +13,10 @@ app.use(cors());
 app.post("/add", async (req, res) => {
   try {
     const { url } = req.body;
+    let isExist = await User.findOne({ long: url });
+    if (isExist) {
+      return res.send(isExist.short);
+    }
     let short = random();
     const newUrl = new User({ short, long: url });
     await newUrl.save();

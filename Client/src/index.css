@@ -7,6 +7,10 @@ html {
     padding: 0;
 }
 
+body{
+    background: rgb(163, 240, 255);
+}
+
 .animate {
     background: linear-gradient(to left, grey, white, grey);
     background-size: 1000px 100%;

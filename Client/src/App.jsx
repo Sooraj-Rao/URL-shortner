@@ -6,10 +6,12 @@ const App = () => {
   const [url, seturl] = useState('')
   const [data, setdata] = useState('')
   const [load, setload] = useState(false);
-  let host = import.meta.env.VITE_SERVER
+  let host = import.meta.env.VITE_SERVER;
+  let link = 'https://sooraj-rao.vercel.app/';
 
 
   const handleSubmit = async () => {
+    setdata('')
     try {
       if (url.length < 14 || !url.includes(':') || !url.includes('.')) return toast.error('Enter a valid URL')
       setload(!load)
@@ -22,23 +24,18 @@ const App = () => {
     }
   }
   const Copy = async () => {
-    toast.success('URL Copied', {
-      style: {
-        background: 'black',
-        color: 'white',
-        margin: '1rem 2rem'
-      }
-    });
+    toast.success('URL Copied');
     window.navigator.clipboard.writeText(data)
   }
 
   return (
-    <div className=' font-sans'>
+    <div className=' font-sans  '>
       <Toaster
         position='top-right'
       />
-      <div className=' px-5 bg-blue-400 text-white text-center lg:h-60 sm:h-96 h-[30rem] py-10 pb-14  '>
+      <div className=' px-5  bg-blue-400  text-white text-center lg:h-60 sm:h-96 h-[30rem] pt-10 pb-16  '>
         <h1 className=' font-medium '>URL shortner</h1>
+
         <input
           value={url}
           onChange={(e) => seturl(e.target.value)}
@@ -57,7 +54,7 @@ const App = () => {
             <div>
               <h3 className=' mt-10 text-lg font-medium '>Your Shortened URL </h3>
               <input type="text" readOnly value={data}
-                className='mt-3 h-12 md:w-1/4 sm:w-1/2 w-4/6 px-3 text-xl outline-none rounded border-none'
+                className='mt-3 h-12 mb-4 sm:mb-0 md:w-1/4 sm:w-1/3 w-4/6 px-3 text-xl outline-none rounded border-none'
               />
               <button onClick={Copy} className='hover:bg-blue-100 ml-2 md:ml-6 text-lg cursor-pointer h-10 w-24 outline-none border-none rounded-md'>
                 Copy
@@ -66,25 +63,32 @@ const App = () => {
           }
           {load &&
             <div>
-              <h3 className=' flex justify-center mt-10 text-lg font-medium  '>
-                <span className='animate w-1/3'>.</span>
+              <h3 className=' flex justify-center  mt-10 text-lg font-medium  '>
+                <span className='animate sm:w-1/4 w-1/2 h-8 rounded'></span>
               </h3>
-              <input type="text" readOnly
-                className='animate mt-3 h-12 md:w-1/4 sm:w-1/2 w-4/6 px-3 text-xl outline-none rounded border-none'
-              />
-              <button className='animate text-white ml-2 md:ml-6 text-lg cursor-pointer h-10 w-24 outline-none border-none rounded-md'>
-                .
-              </button>
+              <div className=' flex justify-center items-center flex-wrap'>
+                <div
+                  className='animate mt-4 h-12 mb-4 sm:mb-0 md:w-1/4 sm:w-1/3 w-4/6 px-3 text-xl outline-none rounded border-none'
+                >
+                </div>
+                <div className='sm:mt-3 animate z-50 text-white ml-2 md:ml-6 text-lg cursor-pointer h-10 w-24 outline-none border-none rounded-md'>
+                </div>
+              </div>
             </div>
           }
         </div>
-
       </div>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgb(96, 165, 250)" fillOpacity="1" d="M0,256L80,245.3C160,235,320,213,480,218.7C640,224,800,256,960,256C1120,256,1280,224,1360,208L1440,192L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>
       <div className='hidden md:block  md:-mt-[14rem] xl:-mt-[18rem] -ml-[20rem]'>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgb(96, 165, 250)" fillOpacity="0.5" d="M0,256L80,245.3C160,235,320,213,480,218.7C640,224,800,256,960,256C1120,256,1280,224,1360,208L1440,192L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>
       </div>
+      <div className=' absolute bottom-3 sm:left-[45%] left-[38%] flex justify-center' >
+        <span >Made by
+          <span className=' cursor-pointer text-blue-800 pl-3  ' onClick={() => window.open(link, '_target')}>Sooraj</span>
+        </span>
+      </div>
     </div>
+
   )
 }
 
