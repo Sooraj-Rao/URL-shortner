@@ -1,8 +1,7 @@
 import axios from "axios"
 
 export const Test = async (host) => {
-    const res =await axios.get(host + 'simply');
-    console.log(res);
+    const res = await axios.get(host + 'test/simply');
 }
 
 const CustomUrl = ({ url, setUrl, error }) => {
