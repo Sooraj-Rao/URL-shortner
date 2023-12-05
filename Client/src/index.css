@@ -7,18 +7,36 @@ html {
     padding: 0;
 }
 
+.shake {
+    animation: anim .2s linear infinite;
+}
+
+@keyframes anim {
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(0px);
+    }
+
+    75% {
+        transform: translateX(2px);
+    }
+
+    100% {
+        transform: translateX(-2px);
+    }
+}
+
 body {
-    background: rgb(163, 240, 255);
+    background: rgb(175, 241, 254);
 }
 
 .animate {
     background: linear-gradient(to left, rgb(203, 243, 250), rgb(142, 193, 255), rgb(203, 243, 250));
     background-size: 1000px 100%;
     animation: ani 2s linear infinite;
-}
-
-::selection {
-    display: none;
 }
 
 @keyframes ani {
