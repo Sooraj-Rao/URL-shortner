@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
-import Loader from './Components/loader';
+import Loader from './Components/Loader';
 import Footer from './Components/Footer';
 import CustomUrl from './Components/CustomUrl';
 import ShowCustom from './Components/ShowCustom';
