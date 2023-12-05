@@ -1,5 +1,12 @@
+import axios from "axios"
+
+export const Test = async (host) => {
+    const res =await axios.get(host + 'simply');
+    console.log(res);
+}
 
 const CustomUrl = ({ url, setUrl, error }) => {
+
     return (
         <div>
             <h3 className=' mt-10 text-lg font-semibold text-blue-950  '>Enter your custom URL </h3>

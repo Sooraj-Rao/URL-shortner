@@ -5,6 +5,7 @@ import {
   GetCount,
   GetCustomCount,
   GetURL,
+  Simply,
 } from "./Controller.js";
 export const router = new express.Router();
 
@@ -13,3 +14,4 @@ router.post("/custom/add", AddCustomURL);
 router.get("/:short", GetURL);
 router.get("/count/:short", GetCount);
 router.get("/custom_count/:short", GetCustomCount);
+router.get("/simply", Simply);

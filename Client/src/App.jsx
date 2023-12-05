@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from './Components/Loader';
 import Footer from './Components/Footer';
-import CustomUrl from './Components/CustomUrl';
+import CustomUrl, { Test } from './Components/CustomUrl';
 import ShowCustom from './Components/ShowCustom';
 import Result from './Components/Result';
 
@@ -19,6 +19,7 @@ const App = () => {
   const [error, setError] = useState(false);
   let host = import.meta.env.VITE_SERVER;
   let link = import.meta.env.VITE_LINK;
+
 
   const handleSubmit = async () => {
     if (url.one.length == 0 || custom && url.two.length == 0) {
@@ -80,6 +81,10 @@ const App = () => {
     setTimeout(() => {
       setError(false)
     }, 1000);
+
+    useEffect(() => {
+      Test(host)
+    }, [link])
 
   return (
     <div className=' font-mono h-screen overflow-hidden '>

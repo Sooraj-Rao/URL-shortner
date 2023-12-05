@@ -94,3 +94,7 @@ export const GetCustomCount = async (req, res) => {
     return res.json({ message: "Failed to fetch data bro!!" });
   }
 };
+
+export const Simply = (req, res) => {
+  res.send("Helo there!");
+};
