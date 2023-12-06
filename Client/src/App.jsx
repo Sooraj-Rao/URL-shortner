@@ -18,7 +18,7 @@ const App = () => {
   const [showCustom, setShowCustom] = useState(true)
   const [error, setError] = useState(false);
   let host = import.meta.env.VITE_SERVER;
-  let link = import.meta.env.VITE_LINK;
+ 
 
 
   const handleSubmit = async () => {
@@ -84,14 +84,14 @@ const App = () => {
 
     useEffect(() => {
       Test(host)
-    }, [link])
+    }, [host])
 
   return (
     <div className=' font-mono h-screen overflow-hidden '>
       <Toaster
         position='top-right'
       />
-      <div className=' px-5  bg-blue-400   text-center lg:h-[30rem] sm:h-96 h-[38rem] pt-5 pb-28 '>
+      <div className=' px-5 bg-blue-300  sm:bg-blue-400   text-center lg:h-[30rem] sm:h-96 h-[38rem] pt-5 pb-28 '>
         <h1 style={{ textShadow: '3px 3px 1px black' }} className='   text-4xl font-semibold  text-white font-sans  '>URL shortner</h1>
         <input
           value={url.one}
@@ -125,7 +125,7 @@ const App = () => {
           }
         </div>
       </div>
-      <Footer link={link} />
+      <Footer  />
     </div>
   )
 }

@@ -13,7 +13,6 @@ export const AddURL = async (req, res) => {
     await newUrl.save();
     res.json({ short: short, success: true });
   } catch (error) {
-    console.log(error);
     return res.json({ message: "Failed to create Short URL", success: false });
   }
 };
