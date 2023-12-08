@@ -29,6 +29,10 @@ html {
     }
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     background: rgb(175, 241, 254);
 }
