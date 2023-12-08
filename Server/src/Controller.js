@@ -61,13 +61,10 @@ export const GetURL = async (req, res) => {
           : findUrl.long
       );
     } else {
-      return res.json({
-        message: "This URL doesnt exist Bro! Go to this page and genarate one",
-        link: Link,
-      });
+      res.redirect(Link + "e");
     }
   } catch (error) {
-    return res.json({ message: "Error fetching Url Bro!", success: false });
+    res.redirect(Link + "e");
   }
 };
 

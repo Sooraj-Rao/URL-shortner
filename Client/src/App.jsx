@@ -6,7 +6,7 @@ import Footer from './Components/Footer';
 import CustomUrl, { Test } from './Components/CustomUrl';
 import ShowCustom from './Components/ShowCustom';
 import Result from './Components/Result';
-import { ErrorMessage } from './Data';
+import { ErrorMessage, Logo } from './Data';
 
 const App = () => {
   const [url, setUrl] = useState({
@@ -89,11 +89,17 @@ const App = () => {
 
   return (
     <div className=' font-mono h-screen overflow-hidden '>
+      
       <Toaster
         position='top-right'
       />
       <div className=' px-5 bg-blue-300  sm:bg-blue-400   text-center lg:h-[30rem] sm:h-96 h-[38rem] pt-5 pb-28 '>
-        <h1 style={{ textShadow: '3px 3px 1px black' }} className='   text-4xl font-semibold  text-white font-sans  '>URL shortner</h1>
+        <div style={{ textShadow: '3px 3px 1px black' }} className=' flex justify-center items-center  text-4xl font-semibold  text-white font-sans  '>
+          <div className='mr-5  '>{Logo}</div>
+          <span>
+            URL shortner
+          </span>
+        </div>
         <input
           value={url.one}
           onChange={(e) => setUrl({ ...url, one: e.target.value })}
