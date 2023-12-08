@@ -6,6 +6,7 @@ import Footer from './Components/Footer';
 import CustomUrl, { Test } from './Components/CustomUrl';
 import ShowCustom from './Components/ShowCustom';
 import Result from './Components/Result';
+import { ErrorMessage } from './Data';
 
 const App = () => {
   const [url, setUrl] = useState({
@@ -18,25 +19,25 @@ const App = () => {
   const [showCustom, setShowCustom] = useState(true)
   const [error, setError] = useState(false);
   let host = import.meta.env.VITE_SERVER;
- 
+
 
 
   const handleSubmit = async () => {
     if (url.one.length == 0 || custom && url.two.length == 0) {
       setError(true);
-      return toast.error('URL cannot be empty')
+      return toast.error(ErrorMessage.Empty)
     }
     if (custom && url.two.length < 10) {
       setError(true);
-      return toast.error('Custom URL should have atleast 10 characters')
+      return toast.error(ErrorMessage.TenChar)
     }
-    if (url.one.length < 14 || !url.one.includes(':') || !url.one.includes('.')) {
+    if (url.one.length < 6 || !url.one.includes('.')) {
       setError(true)
-      return toast.error('Enter a valid URL')
+      return toast.error(ErrorMessage.Valid)
     }
     if (url.one.includes(' ') || url.two.includes(' ')) {
       setError(true)
-      return toast.error('URL cannot contain WhiteSpace')
+      return toast.error(ErrorMessage.WhiteSpace)
     }
     setData('')
     if (!custom && url.one) {
@@ -50,7 +51,7 @@ const App = () => {
         setLoad(false)
         toast.error('Unable to shorten URL')
       }
-    } else if (custom && url.one.length && url.two.length) {
+    } else if (custom && url.one && url.two) {
       try {
         const isValidInput = /^[a-zA-Z0-9]+$/.test(url.two);
         if (!isValidInput) return toast.error('Custom URL can conatin only letter or number')
@@ -82,9 +83,9 @@ const App = () => {
       setError(false)
     }, 1000);
 
-    useEffect(() => {
-      Test(host)
-    }, [host])
+  useEffect(() => {
+    Test(host)
+  }, [host])
 
   return (
     <div className=' font-mono h-screen overflow-hidden '>
@@ -97,10 +98,12 @@ const App = () => {
           value={url.one}
           onChange={(e) => setUrl({ ...url, one: e.target.value })}
           type="text" placeholder='Paste Or Enter URL..' autoFocus
-          className={` whitespace-nowrap  sm:mt-20 mt-10  h-12 md:w-1/3 sm:w-1/2 w-5/6 px-3 text-xl border-blue-400 border-none outline-none rounded 
+          className={` whitespace-nowrap  sm:mt-20 mt-10 border-2  h-12 md:w-1/3 sm:w-1/2 w-5/6 px-3 text-xl  border-blue-300  outline-none rounded 
           ${error && url.one.length == 0 && 'shake   border-red-500'}
+          ${error && url.one.includes(' ') && 'shake   border-red-500'}
+          ${error && !url.one.includes('.') && 'shake   border-red-500'}
+          ${error && url.one.length < 6 && 'shake   border-red-500'}
           `}
-          style={{ border: url.one.length == 0 && error ? '1px solid red' : '1px solid rgb(175, 241, 254)' }}
         />
         <button
           disabled={load}
@@ -125,7 +128,7 @@ const App = () => {
           }
         </div>
       </div>
-      <Footer  />
+      <Footer />
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { CustomUrl, NormalUrl } from "./Model.js";
 import { random } from "./random.js";
+import { Link } from "./Db.js";
 
 export const AddURL = async (req, res) => {
   try {
@@ -54,11 +55,15 @@ export const GetURL = async (req, res) => {
       }
     );
     if (findUrl) {
-      res.redirect(findUrl.long);
+      res.redirect(
+        !findUrl.long.includes("http") || !findUrl.long.includes("https")
+          ? "https://" + findUrl.long
+          : findUrl.long
+      );
     } else {
       return res.json({
         message: "This URL doesnt exist Bro! Go to this page and genarate one",
-        link: "https://srj-url-shortner.vercel.app/",
+        link: Link,
       });
     }
   } catch (error) {
@@ -96,4 +101,8 @@ export const GetCustomCount = async (req, res) => {
 
 export const Simply = (req, res) => {
   res.send("Helo there!");
+};
+
+export const Redirect = (req, res) => {
+  res.redirect(Link);
 };
