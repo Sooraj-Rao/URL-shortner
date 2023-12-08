@@ -80,5 +80,7 @@ export const ErrorMessage = {
   Empty: 'URL cannot be empty',
   TenChar: 'Custom URL should have atleast 10 characters',
   Valid: 'Enter a valid URL',
-  WhiteSpace: 'URL cannot contain WhiteSpace'
+  WhiteSpace: 'URL cannot contain WhiteSpace',
+  LetNum: 'Custom URL can conatin only letter or number',
+  Error: 'Unable to shorten URL'
 }

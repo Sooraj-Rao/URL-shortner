@@ -21,57 +21,64 @@ const App = () => {
   let host = import.meta.env.VITE_SERVER;
 
 
+  const errors = [
+    url.one.length == 0 || custom && url.two.length == 0 ? ErrorMessage.Empty : null,
+    custom && url.two.length < 10 ? ErrorMessage.TenChar : null,
+    url.one.length < 6 || !url.one.includes('.') ? ErrorMessage.Valid : null,
+    url.one.includes(' ') || url.two.includes(' ') ? ErrorMessage.WhiteSpace : null
+  ].filter(Boolean)
 
   const handleSubmit = async () => {
-    if (url.one.length == 0 || custom && url.two.length == 0) {
-      setError(true);
-      return toast.error(ErrorMessage.Empty)
+    for (const error of errors) {
+      if (error) {
+        setError(true)
+        toast.error(error)
+        break;
+      }
     }
-    if (custom && url.two.length < 10) {
-      setError(true);
-      return toast.error(ErrorMessage.TenChar)
-    }
-    if (url.one.length < 6 || !url.one.includes('.')) {
-      setError(true)
-      return toast.error(ErrorMessage.Valid)
-    }
-    if (url.one.includes(' ') || url.two.includes(' ')) {
-      setError(true)
-      return toast.error(ErrorMessage.WhiteSpace)
-    }
+    if (!errors.length == 0) return
     setData('')
     if (!custom && url.one) {
-      try {
-        setLoad(!load)
-        let long = url.one;
-        let res = await axios.post(host + 'add', { long })
-        setLoad(false)
-        setData(host + res.data.short)
-      } catch (error) {
-        setLoad(false)
-        toast.error('Unable to shorten URL')
-      }
+      handleNormalUrl()
     } else if (custom && url.one && url.two) {
-      try {
-        const isValidInput = /^[a-zA-Z0-9]+$/.test(url.two);
-        if (!isValidInput) return toast.error('Custom URL can conatin only letter or number')
-        setShowCustom(false);
-        setLoad(!load)
-        let res = await axios.post(host + 'custom/' + 'add', { short: url.two, long: url.one })
-        setLoad(false)
-        if (!res.data.success) {
-          return toast.error((res.data.message))
-        }
-        setShowCustom(true);
-        setCustom(false)
-        setData(host + res.data.short)
-      } catch (error) {
-        setLoad(false)
-        toast.error('Unable to shorten URL')
-      }
+      handleCustomUrl()
     }
     setUrl({ ...url, one: '' })
   }
+
+  const handleNormalUrl = async () => {
+    try {
+      setLoad(!load)
+      let long = url.one;
+      let res = await axios.post(host + 'add', { long })
+      setLoad(false)
+      setData(host + res.data.short)
+    } catch (error) {
+      setLoad(false)
+      toast.error('Unable to shorten URL')
+    }
+  }
+
+  const handleCustomUrl = async () => {
+    try {
+      const isValidInput = /^[a-zA-Z0-9]+$/.test(url.two);
+      if (!isValidInput) return toast.error(ErrorMessage.LetNum);
+      setShowCustom(false);
+      setLoad(!load)
+      let res = await axios.post(host + 'custom/' + 'add', { short: url.two, long: url.one })
+      setLoad(false)
+      if (!res.data.success) {
+        return toast.error((res.data.message))
+      }
+      setShowCustom(true);
+      setCustom(false)
+      setData(host + res.data.short)
+    } catch (error) {
+      setLoad(false)
+      toast.error(ErrorMessage.Error)
+    }
+  }
+
 
   const Copy = async () => {
     window.navigator.clipboard.writeText(data)
@@ -84,12 +91,13 @@ const App = () => {
     }, 1000);
 
   useEffect(() => {
+    //Sending first dummy request to api since first request takes time for user
     Test(host)
   }, [host])
 
+
   return (
     <div className=' font-mono h-screen overflow-hidden '>
-      
       <Toaster
         position='top-right'
       />
