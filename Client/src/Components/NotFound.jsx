@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom';
 
 const NotFound = () => {
     let link = 'https://srj-url-shortner.vercel.app/';
@@ -17,12 +18,12 @@ const NotFound = () => {
                                 <p className="mb-8 text-base sm:text-lg text-white">
                                     Maybe you clicked or entered a wrong URL.
                                 </p>
-                                <h3
-                                    onClick={() => window.open(link, '_blank')}
+                                <Link
+                                    to={'/'}
                                     className=" cursor-pointer inline-block no-underline rounded-lg border border-white bg-blue-700 px-8 py-3 text-center text-sm sm:text-base font-semibold text-white  hover:bg-blue-600 "
                                 >
                                     Generate a valid URL
-                                </h3>
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -97,7 +97,7 @@ export const GetCustomCount = async (req, res) => {
 };
 
 export const Simply = (req, res) => {
-  res.send("Helo there!");
+  res.send("Hii, Have a Nice Day!");
 };
 
 export const Redirect = (req, res) => {
