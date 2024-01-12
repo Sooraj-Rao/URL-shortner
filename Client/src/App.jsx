@@ -13,6 +13,7 @@ const App = () => {
     one: '',
     two: ''
   })
+  const [ApiRes, setApiRes] = useState(false)
   const [data, setData] = useState('')
   const [load, setLoad] = useState(false);
   const [custom, setCustom] = useState(false);
@@ -92,7 +93,7 @@ const App = () => {
 
   useEffect(() => {
     //Sending first dummy request to api since first request takes time for user
-    Test(host)
+    Test(host, setApiRes)
   }, [host])
 
 
@@ -101,6 +102,7 @@ const App = () => {
       <Toaster
         position='top-right'
       />
+      <h1 className={` duration-300 overflow-hidden text-base text-center ${!ApiRes ? 'py-4' : 'h-0'}`}>Since i user free tier, The first request to the API will take 30 -40 seconds.Kindly Refresh</h1>
       <div className=' px-5 bg-blue-300  sm:bg-blue-400   text-center lg:h-[30rem] sm:h-96 h-[38rem] pt-5 pb-28 '>
         <div style={{ textShadow: '3px 3px 1px black' }} className=' flex justify-center items-center  text-4xl font-semibold  text-white font-sans  '>
           <div className='mr-5  '>{Logo}</div>

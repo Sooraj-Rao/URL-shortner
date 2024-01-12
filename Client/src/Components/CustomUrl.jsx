@@ -2,11 +2,12 @@ import axios from "axios"
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export const Test = async (host) => {
+export const Test = async (host, setApiRes) => {
     const res = await axios.get(host + 'test/simply');
-    toast(res.data,{
+    toast(res.data, {
         icon: '👋',
     });
+    setApiRes(true)
 }
 
 const CustomUrl = ({ url, setUrl, error }) => {
