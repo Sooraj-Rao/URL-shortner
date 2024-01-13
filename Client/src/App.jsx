@@ -102,7 +102,7 @@ const App = () => {
       <Toaster
         position='top-right'
       />
-      <h1 className={` duration-300 overflow-hidden text-base text-center ${!ApiRes ? 'py-4' : 'h-0'}`}>Since i user free tier, The first request to the API will take 30 -40 seconds.Kindly Refresh</h1>
+      {/* <h1 className={` duration-300 overflow-hidden text-base text-center ${!ApiRes ? 'py-4' : 'h-0'}`}>Since i user free tier, The first request to the API will take 30 -40 seconds.Kindly Refresh</h1> */}
       <div className=' px-5 bg-blue-300  sm:bg-blue-400   text-center lg:h-[30rem] sm:h-96 h-[38rem] pt-5 pb-28 '>
         <div style={{ textShadow: '3px 3px 1px black' }} className=' flex justify-center items-center  text-4xl font-semibold  text-white font-sans  '>
           <div className='mr-5  '>{Logo}</div>

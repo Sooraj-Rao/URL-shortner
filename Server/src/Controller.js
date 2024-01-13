@@ -5,6 +5,7 @@ import { Link } from "./Db.js";
 export const AddURL = async (req, res) => {
   try {
     const { long } = req.body;
+    console.log(long);
     let isExist = await NormalUrl.findOne({ long });
     if (isExist) {
       return res.json({ short: isExist.short, success: true });
