@@ -21,8 +21,10 @@ export const AddURL = async (req, res) => {
 
 export const AddCustomURL = async (req, res) => {
   try {
-    const { long, short } = req.body;
+    const { long, custom: short } = req.body;
+    console.log(req.body);
     let isExist = await CustomUrl.findOne({ short });
+    console.log(isExist);
     if (isExist) {
       return res.json({
         message: "Custom URL is already taken",
