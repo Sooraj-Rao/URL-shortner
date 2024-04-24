@@ -44,9 +44,7 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
           description: message,
         });
       }
-      console.log(res);
     } catch (error) {
-      console.log(error);
       toast({
         variant: "destructive",
         description: "Failed to shorten URL",
@@ -70,7 +68,7 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
   return (
     <div>
       <h1 className="scroll-m-20 text-center my-10 poppins-extrabold   text-4xl  tracking-tight lg:text-6xl">
-        Quick Link: Shorten. Share. Shine
+        Quick Link : A Rapid URL Shortener
       </h1>
       <div className=" flex justify-center  poppins-medium ">
         {!ShortUrl ? (
