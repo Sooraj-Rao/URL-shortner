@@ -8,7 +8,7 @@ Connect();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://qucik-link.vercel.app",
+    origin: ["https://qucik-link.vercel.app", "http://localhost:5173"],
   })
 );
 app.use(router);

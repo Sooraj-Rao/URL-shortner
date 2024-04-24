@@ -3,6 +3,7 @@ import { ExternalLink, Github } from "lucide-react";
 import logo from "../../../public/logo.png";
 import logoDark from "../../../public/dark-logo.png";
 import { ModeToggle } from "./theme.toggle";
+import { Link } from "react-router-dom";
 
 const Header = ({
   GithubAcc,
@@ -14,10 +15,12 @@ const Header = ({
   return (
     <div className=" flex justify-between px-10 py-3  shadow-slate-200 dark:shadow-none border-b-2  poppins-medium ">
       <div>
-        <h2 className="scroll-m-20  h-10 font-bold  pb-2 text-3xl  tracking-tight first:mt-0">
-           <img src={logo} className=" h-full dark:hidden block" alt="" />
-          <img src={logoDark} className=" h-full dark:block hidden " alt="" /> 
-        </h2>
+        <Link to={"/"}>
+          <h2 className="scroll-m-20  h-10 font-bold  pb-2 text-3xl  tracking-tight first:mt-0">
+            <img src={logo} className=" h-full dark:hidden block" alt="" />
+            <img src={logoDark} className=" h-full dark:block hidden " alt="" />
+          </h2>
+        </Link>
       </div>
       <div className="  flex gap-x-4 ">
         <ModeToggle />
