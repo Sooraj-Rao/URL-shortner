@@ -8,7 +8,10 @@ Connect();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://srj-quicklink.vercel.app/", "http://localhost:5173"],
+    origin: "https://srj-quicklink.vercel.app",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 app.use(router);
