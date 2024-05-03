@@ -6,9 +6,10 @@ import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { Copy } from "lucide-react";
 import { FormEvent, useRef, useState } from "react";
+import { Validator } from "../components/validate.hook";
 
 const Home = ({ Portfolio }: { Portfolio: string }) => {
-  const [custom, setCustom] = useState(false);
+  const [Iscustom, setCustom] = useState(false);
   const refer = useRef<HTMLInputElement>(null);
   const [ShortUrl, setShortUrl] = useState("");
   const [loader, setloader] = useState(false);
@@ -16,6 +17,7 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
     long: "",
     custom: "",
   });
+
   const Server = import.meta.env.VITE_SERVER;
 
   const handleChange = (e: { target: { name: string; value: string } }) => {
@@ -25,14 +27,18 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
 
   const ShortenLongUrl = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const { error, message } = Validator(URL,Iscustom);
+
+    if (error) {
+      return toast({
+        variant: "destructive",
+        description: message,
+      });
+    }
+
     try {
       setloader(true);
-      let res;
-      if (URL.long && URL.custom) {
-        res = await axios.post(`${Server}/custom/add`, URL);
-      } else {
-        res = await axios.post(`${Server}/add`, URL);
-      }
+      const res = await axios.post(`${Server}/add`, URL);
       const { success, message } = res.data;
       setloader(false);
       if (success) {
@@ -55,7 +61,6 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
   };
 
   const CopyURL = async () => {
-
     if (!refer.current) return;
     toast({
       description: "URL Copied to the clipboard",
@@ -84,13 +89,13 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
                 className=" mt-2  sm:min-w-80 w-60 border-slate-500 focus:border-white"
               />
               <div className=" flex my-2 gap-x-3">
-                <Checkbox onCheckedChange={() => setCustom(!custom)} />
+                <Checkbox onCheckedChange={() => setCustom(!Iscustom)} />
                 <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   Need Custom backhalf for URL
                 </label>
               </div>
             </div>
-            {custom && (
+            {Iscustom && (
               <div>
                 <Input
                   value={URL.custom}

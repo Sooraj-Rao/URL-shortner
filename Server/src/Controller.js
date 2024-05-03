@@ -1,40 +1,45 @@
 import { CustomUrl, NormalUrl } from "./Model.js";
 import { random } from "./random.js";
 import { Link } from "./Db.js";
+import { Validator } from "./validate.js";
 
 export const AddURL = async (req, res) => {
   try {
-    const { long } = req.body;
-    console.log(long);
-    let isExist = await NormalUrl.findOne({ long });
-    if (isExist) {
-      return res.json({ short: isExist.short, success: true });
-    }
-    let short = random();
-    const newUrl = new NormalUrl({ short, long });
-    await newUrl.save();
-    res.json({ short: short, success: true });
-  } catch (error) {
-    return res.json({ message: "Failed to create Short URL", success: false });
-  }
-};
-
-export const AddCustomURL = async (req, res) => {
-  try {
     const { long, custom: short } = req.body;
-    console.log(req.body);
-    let isExist = await CustomUrl.findOne({ short });
-    console.log(isExist);
-    if (isExist) {
+    const { error, message } = Validator({ long, short });
+    if (error) {
+      console.log(message);
+      return res.json({
+        message: message,
+        success: false,
+      });
+    }
+    const [normalUrlExists, customUrlExists] = await Promise.all([
+      NormalUrl.findOne({ long }),
+      CustomUrl.findOne({ short }),
+    ]);
+
+    if (normalUrlExists && !short) {
+      return res.json({ short: normalUrlExists.short, success: true });
+    }
+    if (customUrlExists) {
       return res.json({
         message: "Custom URL is already taken",
         success: false,
       });
     }
-    const newUrl = new CustomUrl({ short, long });
-    await newUrl.save();
-    res.json({ short: short, success: true });
+    let shortUrl = random();
+    if (short) {
+      const newUrl = new CustomUrl({ short, long });
+      await newUrl.save();
+      res.json({ short: short, success: true });
+    } else {
+      const newUrl = new NormalUrl({ short: shortUrl, long });
+      await newUrl.save();
+      res.json({ short: shortUrl, success: true });
+    }
   } catch (error) {
+    console.log(error);
     return res.json({ message: "Failed to create Short URL", success: false });
   }
 };
@@ -42,67 +47,56 @@ export const AddCustomURL = async (req, res) => {
 export const GetURL = async (req, res) => {
   try {
     const { short } = req.params;
-    let findUrl;
+    const [findUrl, findUrlCustom] = await Promise.all([
+      updateUrlHistory(NormalUrl, short),
+      updateUrlHistory(CustomUrl, short),
+    ]);
 
-    let Model = short.length == 8 ? NormalUrl : short.length >= 10 && CustomUrl;
-    findUrl = await Model.findOneAndUpdate(
-      {
-        short,
-      },
-      {
-        $push: {
-          history: {
-            timeStamp: Date.now(),
-          },
-        },
-      }
-    );
-    if (findUrl) {
-      res.redirect(
-        !findUrl.long.includes("http") || !findUrl.long.includes("https")
-          ? "https://" + findUrl.long
-          : findUrl.long
-      );
+    if (findUrl || findUrlCustom) {
+      const url = findUrl ? findUrl.long : findUrlCustom.long;
+      const redirectUrl = url.startsWith("http") ? url : `http://${url}`;
+      res.redirect(redirectUrl);
     } else {
-      res.redirect(Link + "e");
+      res.redirect(`${Link}e`);
     }
   } catch (error) {
-    res.redirect(Link + "e");
+    console.error("Error in GetURL:", error);
+    res.redirect(`${Link}e`);
   }
 };
 
 export const GetCount = async (req, res) => {
   try {
     const { short } = req.params;
-    const findUrl = await NormalUrl.findOne({ short });
-    if (findUrl) {
-      return res.json({ count: findUrl.history.length, data: findUrl });
+    const [normalUrlCount, CustomUrlCount] = await Promise.all([
+      NormalUrl.findOne({ short }),
+      CustomUrl.findOne({ short }),
+    ]);
+    if (normalUrlCount || CustomUrlCount) {
+      const url = normalUrlCount ? normalUrlCount : CustomUrlCount;
+      return res.json({ count: url.history.length, data: url });
     } else {
       return res.json({ message: "This URL doesnt exist" });
     }
   } catch (error) {
+    console.log(error);
     return res.json({ message: "Failed to fetch data bro!!" });
   }
-};
-
-export const GetCustomCount = async (req, res) => {
-  try {
-    const { short } = req.params;
-    const findUrl = await CustomUrl.findOne({ short });
-    if (findUrl) {
-      return res.json({ count: findUrl.history.length, data: findUrl });
-    } else {
-      return res.json({ message: "This URL doesnt exist" });
-    }
-  } catch (error) {
-    return res.json({ message: "Failed to fetch data bro!!" });
-  }
-};
-
-export const Simply = (req, res) => {
-  res.send("Hii, Have a Nice Day!");
 };
 
 export const Redirect = (req, res) => {
   res.redirect(Link);
+};
+
+const updateUrlHistory = async (Model, short) => {
+  return await Model.findOneAndUpdate(
+    { short },
+    {
+      $push: {
+        history: {
+          timeStamp: Date.now(),
+        },
+      },
+    }
+  );
 };
