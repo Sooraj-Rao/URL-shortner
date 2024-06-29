@@ -1,16 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github } from "lucide-react";
 import logo from "../../../public/logo.png";
 import logoDark from "../../../public/dark-logo.png";
 import { ModeToggle } from "./theme.toggle";
 import { Link } from "react-router-dom";
+import { AiOutlineBug } from "react-icons/ai";
+import { FaGithub } from "react-icons/fa";
 
 const Header = ({
-  GithubAcc,
-  Portfolio,
+  data,
 }: {
-  GithubAcc: string;
-  Portfolio: string;
+  data: { contact: string; main: string; github: string };
 }) => {
   return (
     <div className=" flex justify-between px-10 py-3  shadow-slate-200 dark:shadow-none border-b-2  poppins-medium ">
@@ -23,25 +22,26 @@ const Header = ({
         </Link>
       </div>
       <div className="  flex gap-x-4 ">
-        <ModeToggle />
-        <a href={GithubAcc} target="_blank">
-          <Button
-            variant="link"
-            className=" py-2 px-4 border border-slate-400  dark:border-slate-800 rounded md:flex hidden items-center gap-x-1"
-          >
-            <Github />
-            <span>Github</span>
-          </Button>
-        </a>
-        <a href={Portfolio} target="_blank">
-          <Button
-            variant="link"
-            className=" py-2 px-4 border  border-slate-400 dark:border-slate-800 rounded md:flex hidden items-center gap-x-1"
-          >
-            <ExternalLink />
-            <span>Developer</span>
-          </Button>
-        </a>
+        <div className="  flex sm:gap-x-4 ">
+          <a href={data.contact} target="_blank">
+            <Button
+              variant="ghost"
+              className=" py-2 px-4 rounded md:flex hidden items-center gap-x-3"
+            >
+              <AiOutlineBug size={20} />
+              <span>Report an Issue</span>
+            </Button>
+          </a>
+          <a href={data.github} target="_blank">
+            <Button
+              variant="ghost"
+              className=" py-2 px-4   rounded md:flex hidden items-center gap-x-1"
+            >
+              <FaGithub size={20} />
+            </Button>
+          </a>
+          <ModeToggle />
+        </div>
       </div>
     </div>
   );

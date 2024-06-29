@@ -27,12 +27,12 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
 
   const ShortenLongUrl = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { error, message } = Validator(URL,Iscustom);
+    const { error } = Validator(URL, Iscustom);
 
     if (error) {
       return toast({
         variant: "destructive",
-        description: message,
+        description: error,
       });
     }
 
@@ -72,9 +72,21 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
 
   return (
     <div>
-      <h1 className="scroll-m-20 text-center my-10 poppins-extrabold   text-4xl  tracking-tight lg:text-6xl">
-        Quick Link : A Rapid URL Shortener
+      <h1
+        className={`scroll-m-20 text-center my-10 poppins-extrabold tracking-tight text-2xl sm:text-4xl lg:text-6xl
+      `}
+      >
+        {URL.long ? (
+          <span className=" sm:text-3xl text-xl px-4 font-normal tracking-normal  duration-300 ">
+            Shorten unlimited URLs here for free!
+          </span>
+        ) : (
+          <span className="duration-300">
+            Quick Link : A Rapid URL Shortener
+          </span>
+        )}
       </h1>
+
       <div className=" flex justify-center  poppins-medium ">
         {!ShortUrl ? (
           <form onSubmit={ShortenLongUrl}>
@@ -121,7 +133,7 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
             <div className=" flex justify-center items-center flex-col my-20">
               <div className=" flex flex-col justify-center items-center ">
                 <h2 className="scroll-m-10  pb-2 sm:text-3xl text-xl font-semibold tracking-tight first:mt-0">
-                  Your {URL.custom && "custom"} shortned URL is
+                  Your {URL.custom && "custom"} shortened URL is
                 </h2>
                 <div className="flex w-full max-w-sm my-5 items-center justify-center  space-x-2">
                   <Input
@@ -131,9 +143,9 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
                     type="text"
                     className="border-slate-500 sm:w-60 w-48  disabled:cursor-default text-black dark:text-white font-semibold  focus:border-white"
                   />
-                  <Button onClick={CopyURL}>
+                  <Button title="Copy URL" onClick={CopyURL}>
                     {" "}
-                    <Copy />
+                    <Copy size={20} />
                   </Button>
                 </div>
               </div>
@@ -151,15 +163,15 @@ const Home = ({ Portfolio }: { Portfolio: string }) => {
           )
         )}
       </div>
-      <h1 className=" absolute sm:hidden text-sm bottom-3 left-[50%] translate-x-[-50%] translate-y-[-50%]">
+      <a
+        href={Portfolio}
+        className=" absolute sm:hidden text-sm bottom-3 left-[50%] translate-x-[-50%] translate-y-[-50%]"
+      >
         Developed by
-        <span
-          className=" cursor-pointer  ml-1 underline text-blue-800"
-          onClick={() => window.open(Portfolio, "_blank")}
-        >
+        <span className=" cursor-pointer  ml-1  font-semibold text-blue-800">
           Sooraj
         </span>
-      </h1>
+      </a>
     </div>
   );
 };

@@ -6,16 +6,20 @@ import { ThemeProvider } from "./main/components/theme.provider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const App = () => {
-  const GithubAcc = "https://github.com/Sooraj-Rao/url-shortner";
-  const Portfolio = "https://soorajrao.xyz";
+  const SomeData = {
+    contact:
+      "https://contact.soorajrao.in?mode=report&app=quicklink&utm_source=quicklink_header",
+    github: "https://github.com/Sooraj-Rao/URL-shortner",
+    main: "https://soorajrao.in",
+  };
+
   return (
     <BrowserRouter>
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <Toaster />
-        <Header GithubAcc={GithubAcc} Portfolio={Portfolio} />
+        <Header data={SomeData} />
         <Routes>
-          <Route path="/" element={<Home Portfolio={Portfolio} />} />
-          <Route path="/e" element={<NotFound />} />
+          <Route path="/" element={<Home Portfolio={SomeData.main} />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </ThemeProvider>

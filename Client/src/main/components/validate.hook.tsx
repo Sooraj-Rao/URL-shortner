@@ -6,22 +6,22 @@ type T_URL = {
 export const Validator = (URL: T_URL, Iscustom: boolean) => {
   const { long, custom } = URL;
   if (Iscustom && !custom) {
-    return { message: "Please Enter custom backhalf URL", error: true };
+    return { error: "Please Enter custom backhalf URL" };
   }
   if (Iscustom && custom?.length < 8) {
-    return { message: "Custom backhalf is too short", error: true };
+    return { error: "Custom backhalf is too short" };
   }
   if (Iscustom && custom && !isValidCustom(custom)) {
-    return { message: "Invalid custom backhalf format", error: true };
+    return { error: "Only letters,numbers allowed" };
   }
 
   if (!long) {
-    return { message: "Please enter a URL", error: true };
+    return { error: "Please enter a URL" };
   } else if (!isValidURL(long)) {
-    return { message: "Invalid URL format", error: true };
+    return { error: "Invalid URL format"};
   }
 
-  return { error: false, message: null };
+  return { error: null };
 };
 
 const isValidURL = (url: string) => {

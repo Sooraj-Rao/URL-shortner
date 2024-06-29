@@ -9,4 +9,3 @@ export const Connect = () => {
     .catch((err) => console.log("DB Connection Failed", err));
 };
 
-export let Link = process.env.LINK;
