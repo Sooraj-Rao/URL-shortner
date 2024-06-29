@@ -2,6 +2,8 @@ import { CustomUrl, NormalUrl } from "./Model.js";
 import { random } from "./random.js";
 import { Validator } from "./validate.js";
 
+let Link = process.env.LINK;
+
 export const AddURL = async (req, res) => {
   try {
     const { long, custom: short } = req.body;
@@ -83,8 +85,6 @@ export const GetCount = async (req, res) => {
   }
 };
 
-
-
 const updateUrlHistory = async (Model, short) => {
   return await Model.findOneAndUpdate(
     { short },
@@ -96,4 +96,8 @@ const updateUrlHistory = async (Model, short) => {
       },
     }
   );
+};
+
+export const Redirect = (_, res) => {
+  res.redirect(Link);
 };
