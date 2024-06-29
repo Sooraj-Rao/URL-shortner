@@ -11,7 +11,6 @@ app.use(
     origin: [
       "https://srj-quicklink.vercel.app",
       "https://quicklink.soorajrao.in",
-      "http://localhost:5173",
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
